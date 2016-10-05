@@ -1,0 +1,9 @@
+req: pyinstaller
+rm -rf build/ dist/ __pycache__/ test.spec
+pyinstaller --onefile test.py
+
+
+
+req: py2exe and py3
+python msetup.py install
+
