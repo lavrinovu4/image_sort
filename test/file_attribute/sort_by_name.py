@@ -13,10 +13,10 @@ def parse(file_split_name):
 
         if (len(date) == 8):
             year = date[0:4]
-            month = date[5:6]
-            day = date[7:8]
+            month = date[4:6]
+            day = date[6:8]
         
-            return (day, month, year)
+            return [year, month, day]
         else:
             return 0
 
