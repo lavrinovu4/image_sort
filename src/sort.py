@@ -14,7 +14,7 @@ def parse_name(file_split_name):
         return [year, month, day]
     else:
         return 0
-
+# on Windows should work OK, but linux - it is wrong
 def get_time_from_file(filename):
     str_time = str(datetime.datetime.fromtimestamp(os.path.getctime(filename)))
     return str_time.split(' ')[0].split('-')
@@ -24,30 +24,34 @@ def get_tree(path):
     files = []
 
     for r, d, f in os.walk(path):
-        dirs += [r + x for x in d]
-        files += [r + x for x in f]
+        dirs += [r + '/' + x for x in d]
+        files += [r + '/' + x for x in f]
 
     return [dirs, files]
 
+def find_jpg(file_list):
+    file_jpg = []
+    for f in file_list:
+        if(f.endswith('.jpg')):
+            file_jpg.append(f)
+
+    return file_jpg
+
 def main():
-    print(get_tree('../'))
-    # for filename in os.listdir('.'):
-    #     print(filename)
-    #     print(parse_name(filename))
+    sort_list_jpg = []
 
-        # if(len(filename) == 19):
-        #     file_split_name = filename.split('.')
-        #
-        #     # is file?
-        #     if (len(file_split_name) > 1):
-        #             res = parse(file_split_name)
-        #
-        #             if (res != 0):
-        #                 print(res)
+    tree_src = get_tree('..')
+    jpg_list = find_jpg(tree_src[1])
 
-    # for filename in os.listdir('.'):
-    #     print (filename)
-    #     print(get_time_from_file(filename))
+    for jpg in jpg_list:
+        # only name of file for this function - delete dirs
+        res = parse_name(jpg.split('/')[-1])
+        if(res == 0):
+            res = get_time_from_file(jpg)
+
+        sort_list_jpg.append((jpg, res))
+
+    print(sort_list_jpg)
 
 main()
 
