@@ -19,10 +19,21 @@ def get_time_from_file(filename):
     str_time = str(datetime.datetime.fromtimestamp(os.path.getctime(filename)))
     return str_time.split(' ')[0].split('-')
 
+def get_tree(path):
+    dirs = []
+    files = []
+
+    for r, d, f in os.walk(path):
+        dirs += [r + x for x in d]
+        files += [r + x for x in f]
+
+    return [dirs, files]
+
 def main():
-    for filename in os.listdir('.'):
-        print(filename)
-        print(parse_name(filename))
+    print(get_tree('../'))
+    # for filename in os.listdir('.'):
+    #     print(filename)
+    #     print(parse_name(filename))
 
         # if(len(filename) == 19):
         #     file_split_name = filename.split('.')
@@ -34,9 +45,9 @@ def main():
         #             if (res != 0):
         #                 print(res)
 
-    for filename in os.listdir('.'):
-        print (filename)
-        print(get_time_from_file(filename))
+    # for filename in os.listdir('.'):
+    #     print (filename)
+    #     print(get_time_from_file(filename))
 
 main()
 
