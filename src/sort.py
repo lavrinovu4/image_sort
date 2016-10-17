@@ -1,4 +1,5 @@
 import os, datetime
+import sys
 
 # format name: "YYYYMMDD_XXXXXX"
 def parse_name(file_split_name):
@@ -39,8 +40,14 @@ def find_jpg(file_list):
 
 def main():
     sort_list_jpg = []
+    src_path = ''
 
-    tree_src = get_tree('..')
+    if(len(sys.argv) <= 1):
+        src_path = '..'
+    else:
+        src_path = sys.argv[1]
+
+    tree_src = get_tree(src_path)
     jpg_list = find_jpg(tree_src[1])
 
     for jpg in jpg_list:
