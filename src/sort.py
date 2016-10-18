@@ -1,5 +1,6 @@
 import os, datetime
 import sys
+from shutil import copy
 
 # format name: "YYYYMMDD_XXXXXX"
 def parse_name(file_split_name):
@@ -36,6 +37,15 @@ def find_jpg(file_list):
 
     return file_jpg
 
+def create_dir_tree(name):
+    cur = os.getcwd()
+    for folder in name.split('/'):
+        if(os.path.isdir(folder) == 0):
+            os.mkdir(folder)
+        os.chdir(folder)
+
+    os.chdir(cur)
+
 def main():
     sort_list_jpg = []
     src_path = ''
@@ -56,7 +66,13 @@ def main():
 
         sort_list_jpg.append(dict(filename=jpg, date=res))
 
-    print(sort_list_jpg)
+    for jpg in sort_list_jpg:
+        src = jpg['filename']
+        dst = "dst/" + jpg['date']['year'] + "/" + jpg['date']['month']
+        if(os.path.exists(dst + "/" + src.split('/')[-1]) == 0):
+            print("cp " + src + " " + dst)
+            create_dir_tree(dst)
+            copy(src, dst)
 
 main()
 

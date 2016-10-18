@@ -4,11 +4,12 @@ Also should work on Windows mashines.
 TODO:
 Core - 
 + 1. Get date by file atribute
-? 2. Checking date by name
-3. Choosing method of creating
-4. Creating flow of img and sorted  
++ 2. Checking date by name
++ 3. Choosing method of creating
++ 4. Creating flow of img and sorted
 5. Move files to a folder
 6. kyrilic in path
+7. additional slach handler
 
 Features:
 1. Delete files afterwards
