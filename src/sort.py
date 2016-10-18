@@ -8,17 +8,15 @@ def parse_name(file_split_name):
     date = field_name[0]
 
     if (len(date) == 8) and (date.isdigit() == True):
-        year = date[0:4]
-        month = date[4:6]
-        day = date[6:8]
-    
-        return [year, month, day]
+        return dict(year=date[0:4] ,month=date[4:6] ,day=date[6:8])
     else:
         return 0
+
 # on Windows should work OK, but linux - it is wrong
 def get_time_from_file(filename):
     str_time = str(datetime.datetime.fromtimestamp(os.path.getctime(filename)))
-    return str_time.split(' ')[0].split('-')
+    date = str_time.split(' ')[0].split('-')
+    return dict(year=date[0], month=date[1],day=date[2])
 
 def get_tree(path):
     dirs = []
@@ -56,7 +54,7 @@ def main():
         if(res == 0):
             res = get_time_from_file(jpg)
 
-        sort_list_jpg.append((jpg, res))
+        sort_list_jpg.append(dict(filename=jpg, date=res))
 
     print(sort_list_jpg)
 
