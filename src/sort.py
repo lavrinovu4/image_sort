@@ -7,8 +7,8 @@ def parse_name(file_split_name):
     field_name = file_split_name.split("_")
     date = field_name[0]
 
-    if (len(date) == 8) and (date.isdigit() == True):
-        return dict(year=date[0:4] ,month=date[4:6] ,day=date[6:8])
+    if (len(date) == 8) and (date.isdigit() == True) and (len(field_name) == 2):
+        return dict(year=date[0:4], month=date[4:6], day=date[6:8])
     else:
         return 0
 
@@ -16,7 +16,7 @@ def parse_name(file_split_name):
 def get_time_from_file(filename):
     str_time = str(datetime.datetime.fromtimestamp(os.path.getctime(filename)))
     date = str_time.split(' ')[0].split('-')
-    return dict(year=date[0], month=date[1],day=date[2])
+    return dict(year=date[0], month=date[1], day=date[2])
 
 def get_tree(path):
     dirs = []
