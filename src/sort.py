@@ -23,6 +23,9 @@ def get_tree(path):
     dirs = []
     files = []
 
+    if(path[-1] == '/'):
+        path = path[:-1]
+
     for r, d, f in os.walk(path):
         dirs += [r + '/' + x for x in d]
         files += [r + '/' + x for x in f]

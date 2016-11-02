@@ -9,7 +9,7 @@ Core -
 + 4. Creating flow of img and sorted
 ? 5. Move files to a folder -command?
 6. kyrilic in path
-7. additional slach handler
++ 7. additional slach handler
 8. diff slash in path for Linux and Windows
 + 9. create_dir_tree
 + 10. parse_name get back filename - something better?
