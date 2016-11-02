@@ -7,9 +7,13 @@ Core -
 + 2. Checking date by name
 + 3. Choosing method of creating
 + 4. Creating flow of img and sorted
-5. Move files to a folder
+? 5. Move files to a folder -command?
 6. kyrilic in path
 7. additional slach handler
+8. diff slash in path for Linux and Windows
++ 9. create_dir_tree
++ 10. parse_name get back filename - something better?
++ 11. checking existing path, create it and copy - better solution
 
 Features:
 1. Delete files afterwards
@@ -32,3 +36,22 @@ GUI -
 4. statusbar
 5. button to start and close
 
+
+Сортування
+1. сортуваня по назві
+2. сортування по даті створення
+3. Модифіції(ситуації - порівняти лінукс і віндовс)
+4. Прапореуць із якої папки в яку
+5. Ієрархія
+6. Присвоєнння дня
+7. місяця. року
+8. порівнюввати фото заунікальною сумою
+9. інші атрибути
+10. за вмістом фото??
+11. не копіювати коли є таке фото
+12. прапорець видаляти фото
+13. Генерація картинки
+14. генерація поля виводу
+15. поле вводу
+16. кпопка
+17. повідомленя

@@ -47,6 +47,7 @@ def create_dir_tree(name):
     os.chdir(cur)
 
 def main():
+    flag_rm_src = 0
     sort_list_jpg = []
     src_path = ''
 
@@ -73,6 +74,12 @@ def main():
             print("cp " + src + " " + dst)
             create_dir_tree(dst)
             copy(src, dst)
+
+    if(flag_rm_src != 0):
+        for jpg in sort_list_jpg:
+            jpg_file = jpg['filename']
+            print("rm " + jpg_file)
+            os.remove(jpg_file)
 
 main()
 
