@@ -8,7 +8,11 @@ Core -
 + 3. Choosing method of creating
 + 4. Creating flow of img and sorted
 ? 5. Move files to a folder -command?
-6. kyrilic in path
+    check
+? 6. kyrilic in path
+    encode/decode
+    unicode/utf8/ascii
+    input/output/inside file
 + 7. additional slach handler
 8. diff slash in path for Linux and Windows
 + 9. create_dir_tree
@@ -17,8 +21,9 @@ Core -
 
 Features:
 1. Delete files afterwards
+    check
 2. Check if file exist
-    - name
++    - name
     - chechsum
     - content(hard to realize)
 3. Define a folder

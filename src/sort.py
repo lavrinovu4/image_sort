@@ -1,3 +1,4 @@
+# -*- coding: utf8 -*-
 import os, datetime
 import sys
 from shutil import copy
@@ -72,9 +73,9 @@ def main():
 
     for jpg in sort_list_jpg:
         src = jpg['filename']
-        dst = "dst/" + jpg['date']['year'] + "/" + jpg['date']['month']
+        dst = u"мир" + "/" + jpg['date']['year'] + "/" + jpg['date']['month']
         if(os.path.exists(dst + "/" + src.split('/')[-1]) == 0):
-            print("cp " + src + " " + dst)
+            print("cp " + src + " " + dst.encode("utf8"))
             create_dir_tree(dst)
             copy(src, dst)
 
