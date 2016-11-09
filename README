@@ -14,7 +14,7 @@ Core -
     unicode/utf8/ascii
     input/output/inside file
 + 7. additional slach handler
-8. diff slash in path for Linux and Windows
++ 8. diff slash in path for Linux and Windows
 + 9. create_dir_tree
 + 10. parse_name get back filename - something better?
 + 11. checking existing path, create it and copy - better solution

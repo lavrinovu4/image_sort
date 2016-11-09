@@ -3,6 +3,13 @@ import os, datetime
 import sys
 from shutil import copy
 
+import platform
+
+if (platform.system() == 'Linux'):
+    path_delim = '/'
+else:
+    path_delim = '\\'
+
 # format name: "YYYYMMDD_XXXXXX"
 def parse_name(file_split_name):
 
@@ -24,12 +31,12 @@ def get_tree(path):
     dirs = []
     files = []
 
-    if(path[-1] == '/'):
+    if(path[-1] == path_delim):
         path = path[:-1]
 
     for r, d, f in os.walk(path):
-        dirs += [r + '/' + x for x in d]
-        files += [r + '/' + x for x in f]
+        dirs += [r + path_delim + x for x in d]
+        files += [r + path_delim + x for x in f]
 
     return [dirs, files]
 
@@ -43,7 +50,7 @@ def find_jpg(file_list):
 
 def create_dir_tree(name):
     cur = os.getcwd()
-    for folder in name.split('/'):
+    for folder in name.split(path_delim):
         if(os.path.isdir(folder) == 0):
             os.mkdir(folder)
         os.chdir(folder)
@@ -73,8 +80,8 @@ def main():
 
     for jpg in sort_list_jpg:
         src = jpg['filename']
-        dst = u"мир" + "/" + jpg['date']['year'] + "/" + jpg['date']['month']
-        if(os.path.exists(dst + "/" + src.split('/')[-1]) == 0):
+        dst = u"мир" + path_delim + jpg['date']['year'] + path_delim + jpg['date']['month']
+        if(os.path.exists(dst + path_delim + src.split(path_delim)[-1]) == 0):
             print("cp " + src + " " + dst.encode("utf8"))
             create_dir_tree(dst)
             copy(src, dst)
