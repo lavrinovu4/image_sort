@@ -61,10 +61,28 @@ def main():
     parser = argparse.ArgumentParser(description="Sort image in folders")
     parser.add_argument("-s", "--source", required="true")
     parser.add_argument("-d", "--destination", required="true")
-    parser.add_argument("-r", "--rm_source", action="store_true")
+    parser.add_argument("-x", "--delete", action="store_true")
+    parser.add_argument("-p", "--prefix")
+    parser.add_argument("-y", "--year")
+    parser.add_argument("-m", "--month")
+    parser.add_argument("-r", "--rename", action="store_true")
     parser.add_argument("-c", "--count", action="store_true", help="Print number of copied/moved jpg files")
     args = parser.parse_args()
 
+    if(args.prefix != None):
+        prefix = args.prefix
+    else:
+        prefix = ""
+
+    if(args.year != None):
+        dYear = args.year
+    else:
+        dYear = 0
+
+    if(args.month != None):
+        dMonh = args.month
+    else:
+        dMonth = 0
 
     sort_list_jpg = []
     number_cp = 0
@@ -86,15 +104,30 @@ def main():
     # copied jpg files
     for jpg in sort_list_jpg:
         src = jpg['filename']
-        dst = args.destination + path_delim + jpg['date']['year'] + path_delim + jpg['date']['month']
-        if(os.path.exists(dst + path_delim + src.split(path_delim)[-1]) == 0):
+
+        if(dYear == 0):
+            dYear = jpg['date']['year']
+
+        if(dMonth == 0):
+            dMonth = jpg['date']['month']
+
+        dst_dir = args.destination + path_delim + dYear + path_delim + dMonth
+
+        if(args.rename != 0):
+            dst_file_name = dYear + dMonth + jpg['date']['day'] + ".jpg"
+        else:
+            dst_file_name = src.split(path_delim)[-1]
+
+        dst = dst_dir + path_delim + prefix + dst_file_name
+
+        if(os.path.exists(dst) == 0):
             print("cp " + src + " " + dst)
-            create_dir_tree(dst)
+            create_dir_tree(dst_dir)
             copy(src, dst)
             number_cp += 1
 
     # removed jpg files
-    if(args.rm_source != 0):
+    if(args.delete != 0):
         for jpg in sort_list_jpg:
             jpg_file = jpg['filename']
             print("rm " + jpg_file)

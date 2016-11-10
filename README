@@ -20,19 +20,22 @@ Core -
 + 11. checking existing path, create it and copy - better solution
 
 Features:
-1. Delete files afterwards
++ 1. Delete files afterwards
     check
 2. Check if file exist
 +    - name
     - chechsum
     - content(hard to realize)
-3. Define a folder
++ 3. Define a folder
     - year
     - month
     - day
-4. rename img to date
-5. rename with prefix
++ 4. rename img to date
++ 5. rename with prefix
 + 6. counter of files
+7. Remove should delete all files or only copied files?
+Should ask or only once or not?
+What user can do???
 
 GUI - 
 1. IN/OUT folders
@@ -51,8 +54,8 @@ GUI -
 6. Присвоєнння дня
 7. місяця. року
 8. порівнюввати фото заунікальною сумою
-9. інші атрибути
-10. за вмістом фото??
+- 9. інші атрибути
+- 10. за вмістом фото??
 11. не копіювати коли є таке фото
 12. прапорець видаляти фото
 13. Генерація картинки
