@@ -1,8 +1,7 @@
-# -*- coding: utf8 -*-
 import os, datetime
 import sys
 from shutil import copy
-
+import argparse
 import platform
 
 if (platform.system() == 'Linux'):
@@ -58,18 +57,24 @@ def create_dir_tree(name):
     os.chdir(cur)
 
 def main():
-    flag_rm_src = 0
+
+    parser = argparse.ArgumentParser(description="Sort image in folders")
+    parser.add_argument("-s", "--source", required="true")
+    parser.add_argument("-d", "--destination", required="true")
+    parser.add_argument("-r", "--rm_source", action="store_true")
+    parser.add_argument("-c", "--count", action="store_true", help="Print number of copied/moved jpg files")
+    args = parser.parse_args()
+
+
     sort_list_jpg = []
-    src_path = ''
+    number_cp = 0
+    number_rm = 0
 
-    if(len(sys.argv) <= 1):
-        src_path = '..'
-    else:
-        src_path = sys.argv[1]
-
-    tree_src = get_tree(src_path)
+    # get list of jpg
+    tree_src = get_tree(args.source)
     jpg_list = find_jpg(tree_src[1])
 
+    # analyze jpg - time of creation
     for jpg in jpg_list:
         # only name of file for this function - delete dirs
         res = parse_name(jpg.split('/')[-1])
@@ -78,19 +83,27 @@ def main():
 
         sort_list_jpg.append(dict(filename=jpg, date=res))
 
+    # copied jpg files
     for jpg in sort_list_jpg:
         src = jpg['filename']
-        dst = u"мир" + path_delim + jpg['date']['year'] + path_delim + jpg['date']['month']
+        dst = args.destination + path_delim + jpg['date']['year'] + path_delim + jpg['date']['month']
         if(os.path.exists(dst + path_delim + src.split(path_delim)[-1]) == 0):
-            print("cp " + src + " " + dst.encode("utf8"))
+            print("cp " + src + " " + dst)
             create_dir_tree(dst)
             copy(src, dst)
+            number_cp += 1
 
-    if(flag_rm_src != 0):
+    # removed jpg files
+    if(args.rm_source != 0):
         for jpg in sort_list_jpg:
             jpg_file = jpg['filename']
             print("rm " + jpg_file)
             os.remove(jpg_file)
+            number_rm += 1
+
+    if(args.count != 0):
+        print("Number of copied files: %d" % number_cp)
+        print("Number of removed files: %d" % number_rm)
 
 main()
 

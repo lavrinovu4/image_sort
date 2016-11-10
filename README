@@ -7,9 +7,9 @@ Core -
 + 2. Checking date by name
 + 3. Choosing method of creating
 + 4. Creating flow of img and sorted
-? 5. Move files to a folder -command?
++ 5. Move files to a folder -command?
     check
-? 6. kyrilic in path
++ 6. kyrilic in path
     encode/decode
     unicode/utf8/ascii
     input/output/inside file
@@ -32,7 +32,7 @@ Features:
     - day
 4. rename img to date
 5. rename with prefix
-6. counter of files
++ 6. counter of files
 
 GUI - 
 1. IN/OUT folders
@@ -43,8 +43,8 @@ GUI -
 
 
 Сортування
-1. сортуваня по назві
-2. сортування по даті створення
++ 1. сортуваня по назві
++ 2. сортування по даті створення
 3. Модифіції(ситуації - порівняти лінукс і віндовс)
 4. Прапореуць із якої папки в яку
 5. Ієрархія
