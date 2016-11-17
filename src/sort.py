@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import os, datetime
 import sys
 from shutil import copy
