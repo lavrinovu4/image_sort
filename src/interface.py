@@ -1,13 +1,9 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 import sys
+import core
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-# Dirs choose
-# Count Describe
-# change arg gui
-# launch program
 class Form(QWidget):
     def __init__(self,parent=None):
         super(Form, self).__init__(parent)
@@ -38,9 +34,6 @@ class Form(QWidget):
         chRename = QCheckBox(u"Перейменовувати картинки у відповідності до дати створення")
         chRename.clicked.connect(self.saveChRename)
         fbox.addRow(chRename)
-        chCount = QCheckBox(u"Дозволити обчислення скопійованих картинок")
-        chCount.clicked.connect(self.saveChCount)
-        fbox.addRow(chCount)
 
         prefix = QLineEdit()
         prefix.editingFinished.connect(lambda:self.savePrefix(prefix))
@@ -84,7 +77,6 @@ class Form(QWidget):
         self.MonthText = ""
         self.chDeleteIsChecked = False
         self.chRenameIsChecked = False
-        self.chCountIsChecked = False
 
     def savePrefix(self,Prefix):
         self.PrefixText = str(Prefix.text().toUtf8())
@@ -101,9 +93,6 @@ class Form(QWidget):
     def saveChRename(self,chRenameIsChecked):
         self.chRenameIsChecked = chRenameIsChecked
 
-    def saveChCount(self,chCountIsChecked):
-        self.chCountIsChecked = chCountIsChecked
-
     def saveInButDir(self):
         self.inFeText = QFileDialog.getExistingDirectory(self, u'Відкрити папку звідки', 'd:\\', QFileDialog.ShowDirsOnly)
         self.inFe.setText(self.inFeText)
@@ -113,24 +102,22 @@ class Form(QWidget):
         self.outFe.setText(self.outFeText)
 
     def process(self):
-        print("Hi")
-        print(self.inFeText)
-        print(self.outFeText)
-        print(self.PrefixText)
-        print(self.YearText)
-        print(self.MonthText)
-        print(self.chDeleteIsChecked)
-        print(self.chRenameIsChecked)
-        print(self.chCountIsChecked)
-        self.cp.setText(str(2))
-        self.rm.setText(str(3))
+        parameters = {'delete': self.chDeleteIsChecked,
+                      'rename': self.chRenameIsChecked,
+                      'prefix': str(self.PrefixText),
+                      'year': str(self.YearText),
+                      'month': str(self.MonthText)
+                      }
 
-def main():
+        (numberCp, numberRm) = core.sortImgs(str(self.inFeText), str(self.outFeText), parameters)
+
+        self.cp.setText(str(numberCp))
+        self.rm.setText(str(numberRm))
+
+def interface():
     app = QApplication(sys.argv)
     win = Form()
 
     win.show()
     sys.exit(app.exec_())
-
-main()
 
