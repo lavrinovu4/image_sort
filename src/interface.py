@@ -1,64 +1,63 @@
 # -*- coding: utf-8 -*-
 import sys
 import core
-from PyQt4.QtGui import *
-from PyQt4.QtCore import *
+from PyQt4 import QtGui,QtCore
 
-class Form(QWidget):
+class Form(QtGui.QWidget):
     def __init__(self,parent=None):
         super(Form, self).__init__(parent)
 
-        fbox = QFormLayout()
+        fbox = QtGui.QFormLayout()
 
-        self.inFe = QLineEdit()
+        self.inFe = QtGui.QLineEdit()
         self.inFe.setReadOnly(True)
-        inButDir = QPushButton(u"...")
+        inButDir = QtGui.QPushButton(u"...")
         inButDir.clicked.connect(self.saveInButDir)
-        inLayout = QHBoxLayout()
+        inLayout = QtGui.QHBoxLayout()
         inLayout.addWidget(self.inFe)
         inLayout.addWidget(inButDir)
-        fbox.addRow(QLabel(u"Вкажіть назву директорії де шукати картинки"), inLayout)
+        fbox.addRow(QtGui.QLabel(u"Вкажіть назву директорії де шукати картинки"), inLayout)
 
-        self.outFe = QLineEdit()
+        self.outFe = QtGui.QLineEdit()
         self.outFe.setReadOnly(True)
-        outButDir = QPushButton(u"...")
+        outButDir = QtGui.QPushButton(u"...")
         outButDir.clicked.connect(self.saveOutButDir)
-        outLayout = QHBoxLayout()
+        outLayout = QtGui.QHBoxLayout()
         outLayout.addWidget(self.outFe)
         outLayout.addWidget(outButDir)
-        fbox.addRow(QLabel(u"Вкажіть назву директорії куди копіювати картинки"), outLayout)
+        fbox.addRow(QtGui.QLabel(u"Вкажіть назву директорії куди копіювати картинки"), outLayout)
 
-        chDelete = QCheckBox(u"Видалити директорії після копіювання із диска")
+        chDelete = QtGui.QCheckBox(u"Видалити директорії після копіювання із диска")
         chDelete.clicked.connect(self.saveChDelete)
         fbox.addRow(chDelete)
-        chRename = QCheckBox(u"Перейменовувати картинки у відповідності до дати створення")
+        chRename = QtGui.QCheckBox(u"Перейменовувати картинки у відповідності до дати створення")
         chRename.clicked.connect(self.saveChRename)
         fbox.addRow(chRename)
 
-        prefix = QLineEdit()
+        prefix = QtGui.QLineEdit()
         prefix.editingFinished.connect(lambda:self.savePrefix(prefix))
-        fbox.addRow(QLabel(u"Добавити префікс до назви кожної картинки:"), prefix)
+        fbox.addRow(QtGui.QLabel(u"Добавити префікс до назви кожної картинки:"), prefix)
 
-        year = QLineEdit()
+        year = QtGui.QLineEdit()
         year.editingFinished.connect(lambda:self.saveYear(year))
-        fbox.addRow(QLabel(u"Присвоїти всім картинкам рік створення:"), year)
+        fbox.addRow(QtGui.QLabel(u"Присвоїти всім картинкам рік створення:"), year)
 
-        month = QLineEdit()
+        month = QtGui.QLineEdit()
         month.editingFinished.connect(lambda:self.saveMonth(month))
-        fbox.addRow(QLabel(u"Присвтоїти всім картинкам місяць створення:"), month)
+        fbox.addRow(QtGui.QLabel(u"Присвтоїти всім картинкам місяць створення:"), month)
         
-        self.cp = QLineEdit()
+        self.cp = QtGui.QLineEdit()
         self.cp.setReadOnly(True)
-        self.rm = QLineEdit()
+        self.rm = QtGui.QLineEdit()
         self.rm.setReadOnly(True)
-        countLayout= QHBoxLayout()
-        countLayout.addWidget(QLabel(u"Скопійовано картинок:"))
+        countLayout= QtGui.QHBoxLayout()
+        countLayout.addWidget(QtGui.QLabel(u"Скопійовано картинок:"))
         countLayout.addWidget(self.cp)
-        countLayout.addWidget(QLabel(u"Видалено картинок:"))
+        countLayout.addWidget(QtGui.QLabel(u"Видалено картинок:"))
         countLayout.addWidget(self.rm)
         fbox.addRow(countLayout)
 
-        Ok = QPushButton(u"Почати")
+        Ok = QtGui.QPushButton(u"Почати")
         Ok.clicked.connect(self.process)
         fbox.addRow(Ok)
 
@@ -94,11 +93,11 @@ class Form(QWidget):
         self.chRenameIsChecked = chRenameIsChecked
 
     def saveInButDir(self):
-        self.inFeText = QFileDialog.getExistingDirectory(self, u'Відкрити папку звідки', 'd:\\', QFileDialog.ShowDirsOnly)
+        self.inFeText = QtGui.QFileDialog.getExistingDirectory(self, u'Відкрити папку звідки', 'd:\\', QtGui.QFileDialog.ShowDirsOnly)
         self.inFe.setText(self.inFeText)
 
     def saveOutButDir(self):
-        self.outFeText = QFileDialog.getExistingDirectory(self, u'Відкрити папку призначення', 'd:\\', QFileDialog.ShowDirsOnly)
+        self.outFeText = QtGui.QFileDialog.getExistingDirectory(self, u'Відкрити папку призначення', 'd:\\', QtGui.QFileDialog.ShowDirsOnly)
         self.outFe.setText(self.outFeText)
 
     def process(self):
@@ -115,7 +114,7 @@ class Form(QWidget):
         self.rm.setText(str(numberRm))
 
 def interface():
-    app = QApplication(sys.argv)
+    app = QtGui.QApplication(sys.argv)
     win = Form()
 
     win.show()

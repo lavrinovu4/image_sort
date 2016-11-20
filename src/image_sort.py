@@ -17,7 +17,7 @@ def main():
     parser.add_argument("-g","--gui", action="store_true")
     args = parser.parse_args()
 
-    if(args.gui == 0):
+    if(args.gui != 0):
         if((args.source != None) and (args.destination != None)):
             parameters = {
                           'delete': args.delete,
