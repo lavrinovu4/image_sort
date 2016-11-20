@@ -7,56 +7,120 @@ import argparse
 import platform
 
 if (platform.system() == 'Linux'):
-    path_delim = '/'
+    pathDelim = '/'
 else:
-    path_delim = '\\'
+    pathDelim = '\\'
 
-# format name: "YYYYMMDD_XXXXXX"
-def parse_name(file_split_name):
+# format name: "YYYYMMDDxXXXXX"
+def parseName(fileSplitName):
 
-    field_name = file_split_name.split("_")
-    date = field_name[0]
+    fieldName = fileSplitName.split("_")
+    date = fieldName[0]
 
-    if (len(date) == 8) and (date.isdigit() == True) and (len(field_name) == 2):
+    if (len(date) == 8) and (date.isdigit() == True) and (len(fieldName) == 2):
         return dict(year=date[0:4], month=date[4:6], day=date[6:8])
     else:
         return 0
 
 # on Windows should work OK, but linux - it is wrong
-def get_time_from_file(filename):
-    str_time = str(datetime.datetime.fromtimestamp(os.path.getctime(filename)))
-    date = str_time.split(' ')[0].split('-')
+def getTimeFromFile(filename):
+    strTime = str(datetime.datetime.fromtimestamp(os.path.getctime(filename)))
+    date = strTime.split(' ')[0].split('-')
     return dict(year=date[0], month=date[1], day=date[2])
 
-def get_tree(path):
+def getTree(path):
     dirs = []
     files = []
 
-    if(path[-1] == path_delim):
+    if(path[-1] == pathDelim):
         path = path[:-1]
 
     for r, d, f in os.walk(path):
-        dirs += [r + path_delim + x for x in d]
-        files += [r + path_delim + x for x in f]
+        dirs += [r + pathDelim + x for x in d]
+        files += [r + pathDelim + x for x in f]
 
     return [dirs, files]
 
-def find_jpg(file_list):
-    file_jpg = []
-    for f in file_list:
+def findJpg(fileList):
+    fileJpg = []
+    for f in fileList:
         if(f.endswith('.jpg')):
-            file_jpg.append(f)
+            fileJpg.append(f)
 
-    return file_jpg
+    return fileJpg
 
-def create_dir_tree(name):
+def createDirTree(name):
     cur = os.getcwd()
-    for folder in name.split(path_delim):
+    for folder in name.split(pathDelim):
         if(os.path.isdir(folder) == 0):
             os.mkdir(folder)
         os.chdir(folder)
 
     os.chdir(cur)
+
+def sortImgs(sourceDir, dstDir, sortListJpg, parameters):
+    numberCp = 0
+    numberRm = 0
+    prefix = parameters['prefix']
+    dYear = parameters['year']
+    dMonth = parameters['month']
+
+    if(prefix == None):
+        prefix = ""
+
+    if(dYear == None):
+        dYear = 0
+
+    if(dMonth == None):
+        dMonth = 0
+
+    # get list of jpg
+    treeSrc = getTree(sourceDir)
+    jpgList = findJpg(treeSrc[1])
+
+    # analyze jpg - time of creation
+    for jpg in jpgList:
+        # only name of file for this function - delete dirs
+        res = parseName(jpg.split('/')[-1])
+        if(res == 0):
+            res = getTimeFromFile(jpg)
+
+        sortListJpg.append(dict(filename=jpg, date=res))
+
+    # copied jpg files
+    for jpg in sortListJpg:
+        src = jpg['filename']
+
+        if(dYear == 0):
+            dYear = jpg['date']['year']
+
+        if(dMonth == 0):
+            dMonth = jpg['date']['month']
+
+        dstDir = dstDir + pathDelim + dYear + pathDelim + dMonth
+
+        if(parameters['rename'] != 0):
+            dstFileName = dYear + dMonth + jpg['date']['day'] + ".jpg"
+        else:
+            dstFileName = src.split(pathDelim)[-1]
+
+        dst = dstDir + pathDelim + prefix + dstFileName
+
+        if(os.path.exists(dst) == 0):
+            print("cp " + src + " " + dst)
+            createDirTree(dstDir)
+            copy(src, dst)
+            numberCp += 1
+
+    # removed jpg files
+    if(parameters['delete'] != 0):
+        for jpg in sortListJpg:
+            jpgFile = jpg['filename']
+            print("rm " + jpgFile)
+            os.remove(jpgFile)
+            numberRm += 1
+
+    return (numberCp, numberRm)
 
 def main():
 
@@ -71,74 +135,20 @@ def main():
     parser.add_argument("-c", "--count", action="store_true", help="Print number of copied/moved jpg files")
     args = parser.parse_args()
 
-    if(args.prefix != None):
-        prefix = args.prefix
-    else:
-        prefix = ""
+    parameters = {'delete': args.delete,
+                  'rename': args.rename,
+                  'prefix': args.prefix,
+                  'year': args.year,
+                  'month': args.month
+                  }
 
-    if(args.year != None):
-        dYear = args.year
-    else:
-        dYear = 0
+    sortListJpg = []
 
-    if(args.month != None):
-        dMonh = args.month
-    else:
-        dMonth = 0
+    (numberCp, numberRm) = sortImgs(args.source, args.destination, sortListJpg, parameters)
 
-    sort_list_jpg = []
-    number_cp = 0
-    number_rm = 0
-
-    # get list of jpg
-    tree_src = get_tree(args.source)
-    jpg_list = find_jpg(tree_src[1])
-
-    # analyze jpg - time of creation
-    for jpg in jpg_list:
-        # only name of file for this function - delete dirs
-        res = parse_name(jpg.split('/')[-1])
-        if(res == 0):
-            res = get_time_from_file(jpg)
-
-        sort_list_jpg.append(dict(filename=jpg, date=res))
-
-    # copied jpg files
-    for jpg in sort_list_jpg:
-        src = jpg['filename']
-
-        if(dYear == 0):
-            dYear = jpg['date']['year']
-
-        if(dMonth == 0):
-            dMonth = jpg['date']['month']
-
-        dst_dir = args.destination + path_delim + dYear + path_delim + dMonth
-
-        if(args.rename != 0):
-            dst_file_name = dYear + dMonth + jpg['date']['day'] + ".jpg"
-        else:
-            dst_file_name = src.split(path_delim)[-1]
-
-        dst = dst_dir + path_delim + prefix + dst_file_name
-
-        if(os.path.exists(dst) == 0):
-            print("cp " + src + " " + dst)
-            create_dir_tree(dst_dir)
-            copy(src, dst)
-            number_cp += 1
-
-    # removed jpg files
-    if(args.delete != 0):
-        for jpg in sort_list_jpg:
-            jpg_file = jpg['filename']
-            print("rm " + jpg_file)
-            os.remove(jpg_file)
-            number_rm += 1
-
-    if(args.count != 0):
-        print("Number of copied files: %d" % number_cp)
-        print("Number of removed files: %d" % number_rm)
+    if(args.count != None):
+        print("Number of copied files: %d" % numberCp)
+        print("Number of removed files: %d" % numberRm)
 
 main()
 
