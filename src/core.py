@@ -52,8 +52,6 @@ def sortImgs(sourceDir, dstDir, parameters):
     numberCp = 0
     numberRm = 0
     prefix = parameters['prefix']
-    dYear = parameters['year']
-    dMonth = parameters['month']
 
     if(dstDir[-1] == pathDelim):
         dstDir = dstDir[:-1]
@@ -81,6 +79,9 @@ def sortImgs(sourceDir, dstDir, parameters):
         # copied jpg files
         for jpg in sortListJpg:
             src = jpg['filename']
+
+            dYear = parameters['year']
+            dMonth = parameters['month']
 
             if(dYear == ""):
                 dYear = jpg['date']['year']
