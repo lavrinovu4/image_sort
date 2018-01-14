@@ -44,15 +44,8 @@ def findJpg(fileList):
     return fileJpg
 
 def createDirTree(name):
-    cur = os.getcwd()
-    rel = os.path.relpath(name, cur)
-    for folder in rel.split(pathDelim):
-        if(folder != ""):
-            if(os.path.isdir(folder) == 0):
-                os.mkdir(folder)
-            os.chdir(folder)
-
-    os.chdir(cur)
+    if not os.path.exists(name):
+        os.makedirs(name)
 
 def sortImgs(sourceDir, dstDir, parameters):
     sortListJpg = []
@@ -78,11 +71,12 @@ def sortImgs(sourceDir, dstDir, parameters):
         # analyze jpg - time of creation
         for jpg in jpgList:
             # only name of file for this function - delete dirs
-            res = parseName(jpg.split('/')[-1])
+            res = parseName(jpg.split(pathDelim)[-1])
             if(res == 0):
                 res = getTimeFromFile(jpg)
 
             sortListJpg.append(dict(filename=jpg, date=res))
+
 
         # copied jpg files
         for jpg in sortListJpg:
