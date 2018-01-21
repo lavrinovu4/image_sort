@@ -9,6 +9,15 @@ class Form(QtGui.QWidget):
 
         fbox = QtGui.QFormLayout()
 
+        uab = QtGui.QPushButton(QtGui.QIcon("ua.jpeg"),"")
+        usb = QtGui.QPushButton(QtGui.QIcon("us.png"),"")
+        itb = QtGui.QPushButton(QtGui.QIcon("it.png"),"")
+        lang_layout = QtGui.QHBoxLayout()
+        lang_layout.addWidget(uab)
+        lang_layout.addWidget(usb)
+        lang_layout.addWidget(itb)
+        fbox.addRow(lang_layout)
+
         self.inFe = QtGui.QLineEdit()
         self.inFe.setReadOnly(True)
         inButDir = QtGui.QPushButton(u"...")
