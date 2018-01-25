@@ -89,7 +89,9 @@ def sortImgs(sourceDir, dstDir, parameters):
             if(dMonth == ""):
                 dMonth = jpg['date']['month']
 
-            dstDir = cDstDir + pathDelim + dYear + pathDelim + dMonth
+            dDay = jpg['date']['day']
+
+            dstDir = cDstDir + pathDelim + dYear + pathDelim + dMonth + pathDelim + dDay
 
             if(parameters['rename'] != 0):
                 dstFileName = dYear + dMonth + jpg['date']['day'] + ".jpg"
