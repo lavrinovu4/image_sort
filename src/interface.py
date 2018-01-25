@@ -25,7 +25,7 @@ class Form(QtGui.QWidget):
         inLayout = QtGui.QHBoxLayout()
         inLayout.addWidget(self.inFe)
         inLayout.addWidget(inButDir)
-        fbox.addRow(QtGui.QLabel(u"Вкажіть назву директорії де шукати картинки"), inLayout)
+        fbox.addRow(QtGui.QLabel(u"Вкажіть назву папки, де шукати картинки"), inLayout)
 
         self.outFe = QtGui.QLineEdit()
         self.outFe.setReadOnly(True)
@@ -34,9 +34,9 @@ class Form(QtGui.QWidget):
         outLayout = QtGui.QHBoxLayout()
         outLayout.addWidget(self.outFe)
         outLayout.addWidget(outButDir)
-        fbox.addRow(QtGui.QLabel(u"Вкажіть назву директорії куди копіювати картинки"), outLayout)
+        fbox.addRow(QtGui.QLabel(u"Вкажіть назву папки, куди копіювати картинки"), outLayout)
 
-        chDelete = QtGui.QCheckBox(u"Видалити директорії після копіювання із диска")
+        chDelete = QtGui.QCheckBox(u"Видалити папки після копіювання із диска")
         chDelete.clicked.connect(self.saveChDelete)
         fbox.addRow(chDelete)
         chRename = QtGui.QCheckBox(u"Перейменовувати картинки у відповідності до дати створення")
@@ -53,7 +53,7 @@ class Form(QtGui.QWidget):
 
         month = QtGui.QLineEdit()
         month.editingFinished.connect(lambda:self.saveMonth(month))
-        fbox.addRow(QtGui.QLabel(u"Присвтоїти всім картинкам місяць створення:"), month)
+        fbox.addRow(QtGui.QLabel(u"Присвоїти всім картинкам місяць створення:"), month)
         
         self.cp = QtGui.QLineEdit()
         self.cp.setReadOnly(True)
