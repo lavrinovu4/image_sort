@@ -117,7 +117,8 @@ class Form(QtGui.QWidget):
                       'rename': self.chRenameIsChecked,
                       'prefix': str(self.PrefixText),
                       'year': str(self.YearText),
-                      'month': str(self.MonthText)
+                      'month': str(self.MonthText),
+                      'day': ""
                       }
 
         (numberCp, numberRm) = core.sortImgs(str(self.inFeText), str(self.outFeText), parameters)

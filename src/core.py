@@ -82,6 +82,7 @@ def sortImgs(sourceDir, dstDir, parameters):
 
             dYear = parameters['year']
             dMonth = parameters['month']
+            dDay = parameters['day']
 
             if(dYear == ""):
                 dYear = jpg['date']['year']
@@ -89,7 +90,8 @@ def sortImgs(sourceDir, dstDir, parameters):
             if(dMonth == ""):
                 dMonth = jpg['date']['month']
 
-            dDay = jpg['date']['day']
+            if(dDay == ""):
+                dDay = jpg['date']['day']
 
             dstDir = cDstDir + pathDelim + dYear + pathDelim + dMonth + pathDelim + dDay
 
