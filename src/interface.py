@@ -10,8 +10,11 @@ class Form(QtGui.QWidget):
         fbox = QtGui.QFormLayout()
 
         uab = QtGui.QPushButton(QtGui.QIcon("ua.jpeg"),"")
+        uab.setMinimumSize(QtCore.QSize(16777215, 50))
         usb = QtGui.QPushButton(QtGui.QIcon("us.png"),"")
+        usb.setMinimumSize(QtCore.QSize(16777215, 50))
         itb = QtGui.QPushButton(QtGui.QIcon("it.png"),"")
+        itb.setMinimumSize(QtCore.QSize(16777215, 50))
         lang_layout = QtGui.QHBoxLayout()
         lang_layout.addWidget(uab)
         lang_layout.addWidget(usb)
