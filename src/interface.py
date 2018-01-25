@@ -89,14 +89,14 @@ class Form(QtGui.QWidget):
         self.chDeleteIsChecked = False
         self.chRenameIsChecked = False
 
-    def savePrefix(self,Prefix):
-        self.PrefixText = str(Prefix.text().toUtf8())
+    def savePrefix(self, Prefix):
+        self.PrefixText = Prefix.text()
 
     def saveYear(self,Year):
-        self.YearText = str(Year.text().toUtf8())
+        self.YearText = Year.text()
 
     def saveMonth(self,Month):
-        self.MonthText = str(Month.text().toUtf8())
+        self.MonthText = Month.text()
 
     def saveChDelete(self,chDeleteIsChecked):
         self.chDeleteIsChecked = chDeleteIsChecked
