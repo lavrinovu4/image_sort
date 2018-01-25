@@ -28,7 +28,7 @@ class Form(QtGui.QWidget):
         inLayout = QtGui.QHBoxLayout()
         inLayout.addWidget(self.inFe)
         inLayout.addWidget(inButDir)
-        fbox.addRow(QtGui.QLabel(u"Вкажіть назву папки, де шукати картинки"), inLayout)
+        fbox.addRow(QtGui.QLabel(u"Назва папки(або диску), звідки копіювати картинки"), inLayout)
 
         self.outFe = QtGui.QLineEdit()
         self.outFe.setReadOnly(True)
@@ -37,9 +37,9 @@ class Form(QtGui.QWidget):
         outLayout = QtGui.QHBoxLayout()
         outLayout.addWidget(self.outFe)
         outLayout.addWidget(outButDir)
-        fbox.addRow(QtGui.QLabel(u"Вкажіть назву папки, куди копіювати картинки"), outLayout)
+        fbox.addRow(QtGui.QLabel(u"Назва папки, куди копіювати картинки"), outLayout)
 
-        chDelete = QtGui.QCheckBox(u"Видалити папки після копіювання із диска")
+        chDelete = QtGui.QCheckBox(u"Видалити картинки після копіювання із диска")
         chDelete.clicked.connect(self.saveChDelete)
         fbox.addRow(chDelete)
         chRename = QtGui.QCheckBox(u"Перейменовувати картинки у відповідності до дати створення")
