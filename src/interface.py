@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import core
+from language import language
 from PyQt4 import QtGui,QtCore
 
 class Form(QtGui.QWidget):
@@ -11,10 +12,13 @@ class Form(QtGui.QWidget):
 
         uab = QtGui.QPushButton(QtGui.QIcon("ua.jpeg"),"")
         uab.setMinimumSize(QtCore.QSize(16777215, 50))
+        uab.clicked.connect(self.changeLangUA)
         usb = QtGui.QPushButton(QtGui.QIcon("us.png"),"")
         usb.setMinimumSize(QtCore.QSize(16777215, 50))
+        usb.clicked.connect(self.changeLangUS)
         itb = QtGui.QPushButton(QtGui.QIcon("it.png"),"")
         itb.setMinimumSize(QtCore.QSize(16777215, 50))
+        itb.clicked.connect(self.changeLangIT)
         lang_layout = QtGui.QHBoxLayout()
         lang_layout.addWidget(uab)
         lang_layout.addWidget(usb)
@@ -28,7 +32,8 @@ class Form(QtGui.QWidget):
         inLayout = QtGui.QHBoxLayout()
         inLayout.addWidget(self.inFe)
         inLayout.addWidget(inButDir)
-        fbox.addRow(QtGui.QLabel(u"Назва папки(або диску), звідки копіювати картинки"), inLayout)
+        self.src_folder_label = QtGui.QLabel()
+        fbox.addRow(self.src_folder_label, inLayout)
 
         self.outFe = QtGui.QLineEdit()
         self.outFe.setReadOnly(True)
@@ -37,48 +42,54 @@ class Form(QtGui.QWidget):
         outLayout = QtGui.QHBoxLayout()
         outLayout.addWidget(self.outFe)
         outLayout.addWidget(outButDir)
-        fbox.addRow(QtGui.QLabel(u"Назва папки, куди копіювати картинки"), outLayout)
+        self.dst_folder_label = QtGui.QLabel()
+        fbox.addRow(self.dst_folder_label, outLayout)
 
-        chDelete = QtGui.QCheckBox(u"Видалити картинки після копіювання із диска")
-        chDelete.clicked.connect(self.saveChDelete)
-        fbox.addRow(chDelete)
-        chRename = QtGui.QCheckBox(u"Перейменовувати картинки у відповідності до дати створення")
-        chRename.clicked.connect(self.saveChRename)
-        fbox.addRow(chRename)
+        self.chDelete = QtGui.QCheckBox()
+        self.chDelete.clicked.connect(self.saveChDelete)
+        fbox.addRow(self.chDelete)
+        self.chRename = QtGui.QCheckBox()
+        self.chRename.clicked.connect(self.saveChRename)
+        fbox.addRow(self.chRename)
 
         prefix = QtGui.QLineEdit()
         prefix.editingFinished.connect(lambda:self.savePrefix(prefix))
-        fbox.addRow(QtGui.QLabel(u"Добавити префікс до назви кожної картинки:"), prefix)
+        self.add_prefix_label = QtGui.QLabel()
+        fbox.addRow(self.add_prefix_label, prefix)
 
         year = QtGui.QLineEdit()
         year.editingFinished.connect(lambda:self.saveYear(year))
-        fbox.addRow(QtGui.QLabel(u"Присвоїти всім картинкам рік створення:"), year)
+        self.change_year_label = QtGui.QLabel()
+        fbox.addRow(self.change_year_label, year)
 
         month = QtGui.QLineEdit()
         month.editingFinished.connect(lambda:self.saveMonth(month))
-        fbox.addRow(QtGui.QLabel(u"Присвоїти всім картинкам місяць створення:"), month)
+        self.change_month_label = QtGui.QLabel()
+        fbox.addRow(self.change_month_label, month)
         
         self.cp = QtGui.QLineEdit()
         self.cp.setReadOnly(True)
         self.rm = QtGui.QLineEdit()
         self.rm.setReadOnly(True)
         countLayout= QtGui.QHBoxLayout()
-        countLayout.addWidget(QtGui.QLabel(u"Скопійовано картинок:"))
+        self.copied_img_label = QtGui.QLabel()
+        countLayout.addWidget(self.copied_img_label)
         countLayout.addWidget(self.cp)
-        countLayout.addWidget(QtGui.QLabel(u"Видалено картинок:"))
+        self.deleted_img_label = QtGui.QLabel()
+        countLayout.addWidget(self.deleted_img_label)
         countLayout.addWidget(self.rm)
         fbox.addRow(countLayout)
 
-        Ok = QtGui.QPushButton(u"Почати")
-        Ok.clicked.connect(self.process)
-        fbox.addRow(Ok)
+        self.Ok = QtGui.QPushButton()
+        self.Ok.clicked.connect(self.process)
+        fbox.addRow(self.Ok)
 
         self.setLayout(fbox)
 
         self.setGeometry(100,100,1000,300)
-        self.setWindowTitle(u"Сортування картинок")
 
         self.initVars()
+        self.changeLang("us")
 
     def initVars(self):
         self.inFeText = ""
@@ -88,6 +99,31 @@ class Form(QtGui.QWidget):
         self.MonthText = ""
         self.chDeleteIsChecked = False
         self.chRenameIsChecked = False
+
+    def changeLang(self, lang):
+        list_names = language[lang]
+        self.src_folder_label.setText(list_names["src_folder"])
+        self.dst_folder_label.setText(list_names["dst_folder"])
+        self.chDelete.setText(list_names["del_img"])
+        self.chRename.setText(list_names["rename_img"])
+        self.add_prefix_label.setText(list_names["add_prefix"])
+        self.change_year_label.setText(list_names["change_year"])
+        self.change_month_label.setText(list_names["change_month"])
+        self.copied_img_label.setText(list_names["copied_img"])
+        self.deleted_img_label.setText(list_names["deleted_img"])
+        self.Ok.setText(list_names["start"])
+        self.setWindowTitle(list_names["sort_image_title"])
+        self.open_src_lbl = list_names["open_src"]
+        self.open_dst_lbl = list_names["open_dst"]
+
+    def changeLangUS(self):
+        self.changeLang("us")
+
+    def changeLangUA(self):
+        self.changeLang("ua")
+
+    def changeLangIT(self):
+        self.changeLang("it")
 
     def savePrefix(self, Prefix):
         self.PrefixText = Prefix.text()
@@ -105,11 +141,11 @@ class Form(QtGui.QWidget):
         self.chRenameIsChecked = chRenameIsChecked
 
     def saveInButDir(self):
-        self.inFeText = QtGui.QFileDialog.getExistingDirectory(self, u'Відкрити папку звідки', 'd:\\', QtGui.QFileDialog.ShowDirsOnly)
+        self.inFeText = QtGui.QFileDialog.getExistingDirectory(self, self.open_src_lbl, 'd:\\', QtGui.QFileDialog.ShowDirsOnly)
         self.inFe.setText(self.inFeText)
 
     def saveOutButDir(self):
-        self.outFeText = QtGui.QFileDialog.getExistingDirectory(self, u'Відкрити папку призначення', 'd:\\', QtGui.QFileDialog.ShowDirsOnly)
+        self.outFeText = QtGui.QFileDialog.getExistingDirectory(self, self.open_dst_lbl, 'd:\\', QtGui.QFileDialog.ShowDirsOnly)
         self.outFe.setText(self.outFeText)
 
     def process(self):
