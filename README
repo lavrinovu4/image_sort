@@ -69,3 +69,14 @@ LIB installed:
 py2.7
 sudo apt-get install python-qt4
 sudo pip install pyinstaller
+
+Fix:
++ 1. Fix directory to folder
++ 2. commas insert
++ 3. external device - into src decription internal device - for destination folder.
++ 4. Add "Day" sorting.
+5. Add "Change data of creation"(not year, month).
++6. the icons of langs make bigger.
+6.1 Icons(not buttons) should be bigger???
++7. Fix after every fields was pushed - in console error.
+8. Add json with different langs.
